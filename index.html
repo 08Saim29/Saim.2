@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Saim — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#070b1a;--line:rgba(140,160,255,.25);--ink:#eef2ff;--mute:#9aa6c8;--cy:#5ee7ff;--mg:#c56bff;--am:#ffb454;--card:rgba(20,28,58,.92);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="light"]{--bg:#eef2ff;--ink:#0d1330;--mute:#4a557a;--cy:#0077a8;--mg:#7a2fc4;--am:#b96a00;--line:rgba(60,80,160,.22);--card:rgba(255,255,255,.92)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#eef2ff;--ink:#0d1330;--mute:#4a557a;--cy:#0077a8;--mg:#7a2fc4;--am:#b96a00;--line:rgba(60,80,160,.22);--card:rgba(255,255,255,.92)}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Sora,system-ui,sans-serif;line-height:1.6;overflow-x:hidden}
+#stars{position:fixed;inset:0;width:100%;height:100%;z-index:0}
+main{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:0 20px 80px}
+section{padding:70px 0 10px}
+h2{font-size:clamp(1.6rem,4vw,2.3rem);margin:0 0 24px;font-weight:800}
+.hero{min-height:100vh;display:grid;align-items:center;gap:20px;grid-template-columns:1.1fr 1fr;padding-top:40px}
+.hero h1{font-size:clamp(3.2rem,11vw,7rem);line-height:.95;margin:0;font-weight:800;letter-spacing:-.03em;background:linear-gradient(90deg,var(--cy),var(--mg));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--mute);max-width:36ch;font-size:1.05rem}
+#orb{width:100%;aspect-ratio:1;max-width:420px;justify-self:center;cursor:grab}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.chip{border:1px solid var(--cy);color:var(--cy);border-radius:999px;padding:6px 16px;font-size:.9rem}
+.grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.tilt{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;transition:transform .12s ease-out}
+.k{color:var(--mute);font-size:.85rem;margin:0}
+.v{font-size:1.5rem;font-weight:800;margin:2px 0 0}
+.proj h3{margin:0 0 6px;font-size:1.25rem}
+.proj p{color:var(--mute);margin:0 0 16px;font-size:.95rem}
+.btn{display:inline-block;background:linear-gradient(90deg,var(--cy),var(--mg));color:#070b1a;font-weight:600;text-decoration:none;padding:9px 20px;border-radius:999px;font-size:.92rem}
+.btn:focus-visible,#th:focus-visible{outline:3px solid var(--am);outline-offset:3px}
+.aris{border-color:var(--am);text-align:center;padding:40px 24px}
+.aris h3{font-size:clamp(2.5rem,9vw,4.5rem);margin:0;letter-spacing:.2em;color:var(--am)}
+.modes{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));margin-top:26px;text-align:left}
+.mode{border:1px dashed var(--am);border-radius:14px;padding:14px 16px}
+.mode b{color:var(--am)}
+#th{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));right:14px;z-index:5;background:var(--card);color:var(--ink);border:1px solid var(--mute);border-radius:999px;padding:6px 14px;cursor:pointer;font:inherit;font-size:.85rem}
+footer{text-align:center;color:var(--mute);font-size:.85rem;margin-top:60px}
+@media (max-width:720px){.hero{grid-template-columns:1fr;text-align:center;padding-top:80px}.hero p{margin:0 auto}.chips{justify-content:center}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.tilt{transition:none}}
+
+main{padding-left:max(18px,env(safe-area-inset-left));padding-right:max(18px,env(safe-area-inset-right))}
+.grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr))}
+.tilt{overflow-wrap:anywhere}
+.rail{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:14px 4px 22px;margin:0 -4px;scrollbar-width:none;cursor:grab;overscroll-behavior-x:contain}
+.rail::-webkit-scrollbar{display:none}
+.rail.drag{cursor:grabbing;scroll-snap-type:none}
+.rail .proj{flex:0 0 min(310px,80%);scroll-snap-align:center;display:flex;flex-direction:column;justify-content:space-between;user-select:none;-webkit-user-select:none}
+.hint{display:none;color:var(--mute);font-size:.85rem;margin:-12px 0 4px}
+#cur{position:fixed;left:0;top:0;width:36px;height:36px;margin:-18px 0 0 -18px;border-radius:50%;border:2px solid var(--cy);background:rgba(94,231,255,.14);pointer-events:none;z-index:9;opacity:0;transition:width .2s,height .2s,margin .2s,opacity .2s,background .2s}
+#cur.big{width:60px;height:60px;margin:-30px 0 0 -30px;background:rgba(197,107,255,.2)}
+@media (max-width:720px){section{padding-top:56px}.hero{min-height:auto;padding:96px 0 10px}#orb{max-width:290px}.chips{gap:8px}.chip{font-size:.82rem;padding:5px 12px}#about .grid{grid-template-columns:1fr 1fr;gap:12px}#about .wide{grid-column:1/-1}.tilt{padding:16px}.v{font-size:1.2rem}.modes{grid-template-columns:1fr}.hint{display:block}.aris{padding:28px 16px}footer{margin-top:40px}}
+@media (max-width:340px){#about .grid{grid-template-columns:1fr}}
+
+body{background-image:radial-gradient(circle at 12% 8%,rgba(197,107,255,.20),transparent 38%),radial-gradient(circle at 90% 45%,rgba(94,231,255,.15),transparent 42%),radial-gradient(circle at 20% 92%,rgba(255,180,84,.12),transparent 40%);background-repeat:no-repeat;background-size:100% 100%}
+#bar{position:fixed;left:0;top:0;height:3px;width:100%;z-index:8;background:linear-gradient(90deg,var(--cy),var(--mg),var(--am));transform:scaleX(0);transform-origin:left}
+.orbwrap{position:relative;width:100%;max-width:420px;justify-self:center}
+.orbwrap #orb{max-width:100%;display:block}
+.ring{position:absolute;inset:-3%;border-radius:50%;border:1px dashed var(--mute);animation:spin 26s linear infinite;pointer-events:none}
+.ring.two{inset:8%;animation-duration:18s;animation-direction:reverse;border-color:var(--cy);opacity:.5}
+.ring::after{content:"";position:absolute;top:-6px;left:50%;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:var(--am);box-shadow:0 0 12px var(--am)}
+.ring.two::after{background:var(--cy);box-shadow:0 0 12px var(--cy)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.chip{display:inline-flex;align-items:center;gap:7px}
+.marq{overflow:hidden;border-block:1px solid var(--line);padding:12px 0;margin-inline:calc(50% - 50vw)}
+.track{display:flex;width:max-content;animation:mq 30s linear infinite}
+.track span{padding-right:36px;font-weight:600;color:var(--mute);white-space:nowrap}
+.track span::after{content:"\2726";margin-left:36px;color:var(--am)}
+@keyframes mq{to{transform:translateX(-50%)}}
+.contact{text-align:center;padding:36px 20px}
+.contact p{margin:0 auto 18px;max-width:44ch;color:var(--mute)}
+.hello{position:relative;display:inline-block;background:linear-gradient(90deg,var(--cy),var(--mg));color:#070b1a;font-weight:800;font-size:1.3rem;text-decoration:none;padding:14px 44px;border-radius:999px}
+.hello::after{content:"";position:absolute;inset:0;border-radius:999px;border:2px solid var(--cy);animation:pulse 2.4s ease-out infinite}
+@keyframes pulse{from{transform:scale(1);opacity:.8}to{transform:scale(1.35,1.6);opacity:0}}
+.hello:focus-visible{outline:3px solid var(--am);outline-offset:4px}
+.contact .em{margin:16px auto 0;font-size:.9rem}
+@media (max-width:720px){.orbwrap{max-width:290px}.hello{font-size:1.15rem;padding:13px 36px}}
+@media (prefers-reduced-motion:reduce){.ring,.track,.hello::after{animation:none}}
+
+.tilt{position:relative;cursor:grab;touch-action:pan-y;transform:perspective(800px) rotateX(var(--rx,0deg)) rotateY(calc(var(--ry,0deg) + var(--cf,0deg))) translate3d(var(--tx,0px),var(--ty,0px),0) scale(calc(var(--s,1) * var(--p,1)));transition:transform .35s cubic-bezier(.2,.9,.3,1.3),box-shadow .25s,border-color .25s;-webkit-tap-highlight-color:transparent}
+.tilt::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(94,231,255,.30),transparent 60%);opacity:0;transition:opacity .25s;pointer-events:none}
+.tilt.on{transition:transform .06s linear,box-shadow .25s,border-color .25s;border-color:var(--cy);box-shadow:0 16px 36px rgba(94,231,255,.25)}
+.tilt.on::before{opacity:1}
+.tilt.dragging{cursor:grabbing}
+.rail .proj{touch-action:auto}
+.hint{display:block;margin:-12px 0 8px}
+.hint2{color:var(--mute);font-size:.85rem;margin:-12px 0 14px}
+
+.tilt::after{content:"";position:absolute;inset:-2px;padding:3px;border-radius:inherit;background:linear-gradient(120deg,var(--cy),var(--mg),var(--am));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);opacity:0;transition:opacity .2s;pointer-events:none}
+.tilt.dragging::after{opacity:1}
+.tilt.hl::after{opacity:1}
+
+.chip{position:relative;cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none;transform:perspective(600px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translate3d(var(--tx,0px),var(--ty,0px),0) scale(var(--p,1));transition:transform .35s cubic-bezier(.2,.9,.3,1.3)}
+.chip::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(94,231,255,.35),transparent 65%);opacity:0;transition:opacity .25s;pointer-events:none}
+.chip::after{content:"";position:absolute;inset:-2px;padding:3px;border-radius:inherit;background:linear-gradient(120deg,var(--cy),var(--mg),var(--am));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);opacity:0;transition:opacity .2s;pointer-events:none}
+.chip.on{transition:transform .06s linear}
+.chip.on::before{opacity:1}
+.chip.dragging::after,.chip.hl::after{opacity:1}
+.tilt{background:linear-gradient(160deg,rgba(255,255,255,.045),transparent 40%),var(--card)}
+
+html,body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
+.em{-webkit-user-select:text;user-select:text}
+a,canvas,svg{-webkit-user-drag:none}
+::selection{background:transparent}
+.em::selection{background:var(--cy);color:var(--bg)}
+a,button{cursor:pointer}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<canvas id="stars" aria-hidden="true"></canvas>
+<button id="th" type="button">Light / Dark</button>
+<main>
+<div class="hero">
+  <div>
+    <h1>Saim</h1>
+    <p>I love building websites. Drag the planet, tilt the cards, and take a look at what I've made.</p>
+    <div class="chips"><span class="chip"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l3-1 12-12-2-2L4 18z"/><path d="M14 6l2 2"/></svg>Sketching</span><span class="chip"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21v-4M8 17h8l2-9H6z"/><path d="M9 8l1 9M15 8l-1 9"/></svg>Badminton</span><span class="chip"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4"/></svg>Web developing</span><span class="chip">Anime &amp; manga</span><span class="chip">K-series</span><span class="chip">Space research</span></div>
+  </div>
+  <div class="orbwrap"><canvas id="orb" width="320" height="320" aria-label="Interactive 3D particle sphere. Drag to rotate."></canvas><span class="ring"></span><span class="ring two"></span></div>
+</div>
+
+<div class="marq" aria-hidden="true"><div class="track"><span>Anime</span><span>Manga</span><span>K-series</span><span>Space theories</span><span>Space research</span><span>Web developing</span><span>Sketching</span><span>Badminton</span><span>Anime</span><span>Manga</span><span>K-series</span><span>Space theories</span><span>Space research</span><span>Web developing</span><span>Sketching</span><span>Badminton</span></div></div>
+
+<section id="about">
+  <h2>About me</h2>
+  <p class="hint2">Press and drag any card. It tilts, follows you and bounces back.</p>
+  <div class="grid">
+    <div class="tilt"><p class="k">Name</p><p class="v">Saim</p></div>
+    <div class="tilt"><p class="k">Age</p><p class="v">14</p></div>
+    <div class="tilt"><p class="k">Class</p><p class="v">10th</p></div>
+    <div class="tilt"><p class="k">Subject</p><p class="v">Computer Science</p></div>
+    <div class="tilt"><p class="k">9th class marks</p><p class="v">422</p></div>
+    <div class="tilt"><p class="k">Religion</p><p class="v">Muslim</p></div>
+    <div class="tilt"><p class="k">Lives in</p><p class="v">Pakistan</p></div>
+    <div class="tilt wide"><p class="k">Also love</p><p class="v" style="font-size:1.05rem">Anime, manga, K-series, space theories and space research</p></div>
+    <div class="tilt wide"><p class="k">Hobbies</p><p class="v" style="font-size:1.05rem">Sketching, badminton, web developing</p></div>
+  </div>
+</section>
+
+<section id="projects">
+  <h2>Projects</h2>
+  <p class="hint">Swipe or drag the cards. They tilt and glow.</p>
+  <div class="rail" id="rail">
+    <article class="tilt proj">
+      <h3>Mission Control</h3>
+      <p>A personal command deck that turns goals into missions and habits into ship systems. You earn XP, level up and build streaks. Sign in with Google or continue as a guest.</p>
+      <a class="btn" href="https://08saim29.github.io/saim.1/" target="_blank" rel="noopener">Open project</a>
+    </article>
+    <article class="tilt proj">
+      <h3>NEBULA</h3>
+      <p>A gesture particle studio. Your webcam tracks your hands, and you shape thousands of glowing particles into a sphere, cube, torus, galaxy or heart. Pinch to zoom and use your second hand to change color.</p>
+      <a class="btn" href="https://08saim29.github.io/Saim./" target="_blank" rel="noopener">Open project</a>
+    </article>
+    <article class="tilt proj">
+      <h3>Stellar Lifecycle</h3>
+      <p>A simulator that shows how a star lives and dies. Pick a red dwarf, a Sun-like star or a massive one, then change the speed and watch each stage and the time left.</p>
+      <a class="btn" href="https://08saim29.github.io/08Saim29/" target="_blank" rel="noopener">Open project</a>
+    </article>
+  </div>
+</section>
+
+<section id="upcoming">
+  <h2>Upcoming projects</h2>
+  <div class="tilt aris">
+    <h3>ARIS</h3>
+    <p style="color:var(--mute);max-width:52ch;margin:10px auto 0">A high-end AI with 3 modes, built to be smart, fast and different from anything I've made before. It is still in development.</p>
+    <div class="modes">
+      <div class="mode"><b>Mode 1</b><br><span class="k">Details coming soon</span></div>
+      <div class="mode"><b>Mode 2</b><br><span class="k">Details coming soon</span></div>
+      <div class="mode"><b>Mode 3</b><br><span class="k">Details coming soon</span></div>
+    </div>
+  </div>
+</section>
+<section id="contact">
+  <h2>Contact</h2>
+  <div class="tilt contact">
+    <p>Want to build something together, or talk about websites and space? Send me a message.</p>
+    <a class="hello" href="mailto:sukuna9013@gmail.com?subject=Hello%20Saim">Say hello</a>
+    <p class="k em">sukuna9013@gmail.com</p>
+  </div>
+</section>
+<footer>Made by Saim</footer>
+</main>
+<script>
+(function(){
+var root=document.documentElement,rm=matchMedia('(prefers-reduced-motion:reduce)').matches;
+var low=(navigator.hardwareConcurrency||4)<=4||(navigator.deviceMemory||4)<=2||innerWidth<700;
+var hover=matchMedia('(hover:hover)').matches;
+function cv(v){return getComputedStyle(root).getPropertyValue(v).trim()}
+var c1,c2,ink;
+function cols(){c1=cv('--cy');c2=cv('--mg');ink=cv('--ink')}
+cols();
+document.getElementById('th').onclick=function(){
+  var dark=cv('--bg')==='#070b1a';
+  root.setAttribute('data-theme',dark?'light':'dark');cols();drawStars();
+};
+// stars: drawn once, static (cheap)
+var sc=document.getElementById('stars'),sx=sc.getContext('2d');
+function drawStars(){
+  sc.width=innerWidth;sc.height=innerHeight;sx.fillStyle=ink;
+  var n=low?50:100;
+  for(var i=0;i<n;i++){sx.globalAlpha=.2+Math.random()*.6;var s=Math.random()*1.8+.4;sx.fillRect(Math.random()*sc.width,Math.random()*sc.height,s,s)}
+  sx.globalAlpha=1;
+}
+drawStars();
+var rt;addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(drawStars,250)});
+// orb: fewer points, capped fps, no sorting, paused when off-screen
+var oc=document.getElementById('orb'),ox=oc.getContext('2d');
+var N=low?160:320,pts=[],ry=0,rx=.3,vy=.01,vx=0,drag=false,lx=0,ly=0,vis=true,last=0,gap=low?50:33;
+for(var i=0;i<N;i++){var y=1-2*(i+.5)/N,r=Math.sqrt(1-y*y),a=i*2.399963;pts.push([Math.cos(a)*r,y,Math.sin(a)*r])}
+oc.addEventListener('pointerdown',function(e){drag=true;lx=e.clientX;ly=e.clientY;oc.setPointerCapture(e.pointerId)});
+oc.addEventListener('pointerup',function(){drag=false});
+oc.addEventListener('pointermove',function(e){if(!drag)return;ry+=(e.clientX-lx)*.01;rx+=(e.clientY-ly)*.01;lx=e.clientX;ly=e.clientY});
+function draw(){
+  var w=oc.width,c=w/2,R=w*.36,cy=Math.cos(ry),sy=Math.sin(ry),cx=Math.cos(rx),sn=Math.sin(rx);
+  ox.clearRect(0,0,w,w);
+  var back=[],front=[];
+  for(var j=0;j<N;j++){var p=pts[j],x=p[0]*cy+p[2]*sy,z=-p[0]*sy+p[2]*cy,y2=p[1]*cx-z*sn,z2=p[1]*sn+z*cx;(z2>0?front:back).push(c+x*R,c+y2*R,z2)}
+  ox.globalAlpha=.35;ox.fillStyle=c2;
+  for(var k=0;k<back.length;k+=3)ox.fillRect(back[k],back[k+1],2,2);
+  ox.globalAlpha=1;ox.fillStyle=c1;
+  for(var m=0;m<front.length;m+=3){var s=2+front[m+2]*2;ox.fillRect(front[m],front[m+1],s,s)}
+}
+function loop(t){
+  if(!vis||document.hidden){return}
+  requestAnimationFrame(loop);
+  if(t-last<gap)return;last=t;
+  if(!drag)ry+=vy;
+  draw();
+}
+if('IntersectionObserver' in window){new IntersectionObserver(function(e){var was=vis;vis=e[0].isIntersecting;if(vis&&!was&&!rm)requestAnimationFrame(loop)}).observe(oc)}
+document.addEventListener('visibilitychange',function(){if(!document.hidden&&vis&&!rm)requestAnimationFrame(loop)});
+draw();if(!rm)requestAnimationFrame(loop);
+// press-and-drag on every card: tilt, follow, glow, bounce back
+var canHover=hover&&!low;
+document.querySelectorAll('.tilt,.chip').forEach(function(el){
+  if(rm)return;
+  var down=false,sx1=0,sy1=0,busy=false,ev,vars=['--rx','--ry','--tx','--ty','--gx','--gy','--p'];
+  function apply(){
+    busy=false;if(!ev)return;
+    var b=el.getBoundingClientRect(),px=(ev.clientX-b.left)/b.width-.5,py=(ev.clientY-b.top)/b.height-.5,k=down?26:10,st=el.style;
+    st.setProperty('--ry',(px*k)+'deg');st.setProperty('--rx',(-py*k)+'deg');
+    st.setProperty('--gx',((px+.5)*100)+'%');st.setProperty('--gy',((py+.5)*100)+'%');
+    if(down){st.setProperty('--tx',Math.max(-40,Math.min(40,(ev.clientX-sx1)*.4))+'px');st.setProperty('--ty',Math.max(-30,Math.min(30,(ev.clientY-sy1)*.4))+'px')}
+  }
+  function sched(){if(!busy){busy=true;requestAnimationFrame(apply)}}
+  function move(e){ev=e;sched()}
+  function rel(){
+    down=false;removeEventListener('pointermove',move);removeEventListener('pointerup',rel);removeEventListener('pointercancel',rel);
+    el.classList.remove('on','dragging');vars.forEach(function(v){el.style.removeProperty(v)});
+  }
+  el.addEventListener('pointerdown',function(e){
+    down=true;sx1=e.clientX;sy1=e.clientY;ev=e;el.classList.add('on','dragging');el.style.setProperty('--p','1.04');
+    addEventListener('pointermove',move);addEventListener('pointerup',rel);addEventListener('pointercancel',rel);sched();
+  });
+  if(canHover){
+    el.addEventListener('pointermove',function(e){if(down||e.pointerType!=='mouse')return;el.classList.add('on');ev=e;sched()});
+    el.addEventListener('pointerleave',function(){if(!down){el.classList.remove('on');vars.forEach(function(v){el.style.removeProperty(v)})}});
+  }
+});
+// cursor ring (mouse devices only)
+if(matchMedia('(hover:hover) and (pointer:fine)').matches&&!rm){
+  var cur=document.createElement('div');cur.id='cur';document.body.appendChild(cur);
+  var tx=0,ty=0,px2=0,py2=0,run=false;
+  function step(){px2+=(tx-px2)*.25;py2+=(ty-py2)*.25;cur.style.transform='translate3d('+px2+'px,'+py2+'px,0)';if(Math.abs(tx-px2)>.3||Math.abs(ty-py2)>.3)requestAnimationFrame(step);else run=false}
+  addEventListener('pointermove',function(e){tx=e.clientX;ty=e.clientY;cur.style.opacity=1;cur.classList.toggle('big',!!(e.target.closest&&e.target.closest('a,button,.tilt,.chip,canvas#orb')));if(!run){run=true;requestAnimationFrame(step)}});
+  document.documentElement.addEventListener('mouseleave',function(){cur.style.opacity=0});
+}
+// project rail: swipe (touch) or drag (mouse), cards turn in 3D as they move
+var rail=document.getElementById('rail'),cards=[].slice.call(rail.children),rq=false;
+function fx(){
+  rq=false;var over=rail.scrollWidth>rail.clientWidth+2;
+  if(rm||!over){cards.forEach(function(c){c.style.removeProperty('--cf');c.style.removeProperty('--s')});return}
+  var b=rail.getBoundingClientRect(),mid=b.left+b.width/2;
+  cards.forEach(function(c){var r=c.getBoundingClientRect(),d=Math.max(-1,Math.min(1,(r.left+r.width/2-mid)/b.width));c.style.setProperty('--cf',(-d*28)+'deg');c.style.setProperty('--s',1-Math.abs(d)*.08)});
+}
+function sched(){if(!rq){rq=true;requestAnimationFrame(fx)}}
+rail.addEventListener('scroll',sched,{passive:true});addEventListener('resize',sched);sched();
+var dn=false,x0=0,sl=0;
+rail.addEventListener('pointerdown',function(e){if(e.pointerType!=='mouse')return;dn=true;x0=e.clientX;sl=rail.scrollLeft;rail.classList.add('drag')});
+addEventListener('pointermove',function(e){if(dn)rail.scrollLeft=sl-(e.clientX-x0)});
+addEventListener('pointerup',function(){if(dn){dn=false;rail.classList.remove('drag')}});
+
+// scroll progress bar
+var bar=document.getElementById('bar'),bq=false;
+function pb(){bq=false;var m=document.documentElement.scrollHeight-innerHeight;bar.style.transform='scaleX('+(m>0?Math.min(1,scrollY/m):0)+')'}
+addEventListener('scroll',function(){if(!bq){bq=true;requestAnimationFrame(pb)}},{passive:true});pb();
+
+// border line shows on any card the pointer or finger passes over (no click needed)
+var hlEl=null,tlast=0,tt;
+function setHl(n){if(n===hlEl)return;if(hlEl)hlEl.classList.remove('hl');hlEl=n;if(n)n.classList.add('hl')}
+document.querySelectorAll('.tilt,.chip').forEach(function(el){
+  el.addEventListener('pointerenter',function(e){if(e.pointerType==='mouse')el.classList.add('hl')});
+  el.addEventListener('pointerleave',function(e){if(e.pointerType==='mouse')el.classList.remove('hl')});
+});
+function tm(e){
+  clearTimeout(tt);var t=e.touches[0];if(!t)return;
+  var now=Date.now();if(now-tlast<50)return;tlast=now;
+  var n=document.elementFromPoint(t.clientX,t.clientY);
+  setHl(n&&n.closest?n.closest('.tilt,.chip'):null);
+}
+function te(){clearTimeout(tt);tt=setTimeout(function(){setHl(null)},350)}
+document.addEventListener('touchstart',tm,{passive:true});
+document.addEventListener('touchmove',tm,{passive:true});
+document.addEventListener('touchend',te,{passive:true});
+document.addEventListener('touchcancel',te,{passive:true});
+})();
+</script>
+</body>
+</html>
